@@ -12,11 +12,11 @@ Red [
 
 day1: context [
 
-	sum-of: function [values [block!]] [
+	set 'sum-of function [values [block!]] [
 		sum: 0 parse values [any [set val integer! (sum: sum + val) | skip]] sum
 	]
 
-	calibration-values-of: function [document [string!] /numerals] [
+	set 'calibration-values-of function [document [string!] /numerals] [
 		digit:        charset "1234567890"
 		digit-rule:   [copy number digit (value: load number)]
 		numeral:      ["one" | "two" | "three" | "four" | "five" | "six" | "seven" | "eight" | "nine"]
@@ -31,9 +31,8 @@ day1: context [
 		parse document values-rule
 	]
 
-	do [
-		probe sum-of calibration-values-of          document: read %day1.dat            ;-- 54605
-		probe sum-of calibration-values-of/numerals document                            ;-- 55429
-	]
 ]
+
+probe sum-of calibration-values-of          document: read %day1.dat            ;-- 54605
+probe sum-of calibration-values-of/numerals document                            ;-- 55429
 

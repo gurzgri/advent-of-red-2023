@@ -4,7 +4,22 @@ Red [
 	author: "Christian Ensel"
 ]
 
-context [
+;   ██████   █████  ██    ██     ██████          ██████ ██    ██ ██████  ███████      ██████  ██████  ███    ██ ██    ██ ███    ██ ██████  ██████  ██    ██ ███    ███ 
+;   ██   ██ ██   ██  ██  ██           ██ ██     ██      ██    ██ ██   ██ ██          ██      ██    ██ ████   ██ ██    ██ ████   ██ ██   ██ ██   ██ ██    ██ ████  ████ 
+;   ██   ██ ███████   ████        █████         ██      ██    ██ ██████  █████       ██      ██    ██ ██ ██  ██ ██    ██ ██ ██  ██ ██   ██ ██████  ██    ██ ██ ████ ██ 
+;   ██   ██ ██   ██    ██        ██      ██     ██      ██    ██ ██   ██ ██          ██      ██    ██ ██  ██ ██ ██    ██ ██  ██ ██ ██   ██ ██   ██ ██    ██ ██  ██  ██ 
+;   ██████  ██   ██    ██        ███████         ██████  ██████  ██████  ███████      ██████  ██████  ██   ████  ██████  ██   ████ ██████  ██   ██  ██████  ██      ██ 
+                                                                                                                                                                   
+day2: context [
+	
+	set 'sum-of function [values [block!]] [                                    ;-- poor man's SUM-OF
+		sum: 0 parse values [any [set val integer! (sum: sum + val) | skip]] sum
+	]
+
+	set 'map function [function [any-function!] values [any-block!]] [          ;-- poor man's MAP
+		collect [foreach value values [keep function value]]
+	]
+
 	space: [any " "]
 	colon: [space ":" space]
 	comma: [space "," space]
@@ -35,6 +50,10 @@ context [
 		]
 	]]
 
+	set 'power-of-bag func [bag [block!]] [
+		(any [bag/red 0]) * (any [bag/green 0]) * (any [bag/blue 0])
+	]
+
 	set 'minimal-bags? function [games [string!]] [
 		parse games [collect [any "^/"
 			some [
@@ -62,18 +81,6 @@ context [
 	]]
 ]
 
-sum-of: function [values [block!]] [
-	sum: 0 parse values [any [set val integer! (sum: sum + val) | skip]] sum
-]
-
-power-of: func [bag [block!]] [
-	(any [bag/red 0]) * (any [bag/green 0]) * (any [bag/blue 0])
-]
-
-map: function [function [any-function!] values [any-block!]] [
-	collect [foreach value values [keep function value]]
-]
-
 probe sum-of bagged-games? games: read %day2.dat [red 12 green 13 blue 14]      ;--  2406
-probe sum-of map :power-of minimal-bags? games                                  ;-- 78375
+probe sum-of map :power-of-bag minimal-bags? games                              ;-- 78375
 

@@ -1,2 +1,5 @@
 # ignore input files
 day*.dat
+day*.sample*
+day*.other*
+day*.input*

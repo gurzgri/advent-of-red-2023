@@ -2,15 +2,15 @@ Red [
 	title:  "Advent of Code 2023 - Day 11: Cosmic Expansion"
 	file:   %day11.red
 	author: "Christian Ensel"
+	usage: {
+		>> do/args %day11.red [first  %day11.sample]                            ;-- answers first or ...
+		>> do/args %day11.red [second %day11.input ]                            ;   ... second puzzle question
+	}
 ]
 
 day11: context [
 
 	universe!: object [data: size: none]
-
-	sum-of: function [values [block!]] [                                        ;-- poor man's SUM-OF
-		sum: 0 parse values [any [set v number! (sum: sum + v) | skip]] sum
-	]
 
 	when: make op! function [code [block!] condition [any-type!]] [             ;-- sort of a post-conditional, always
 		if condition [do code]                                                  ;   wanted to play with this
@@ -73,10 +73,10 @@ day11: context [
 	set 'sum-of-galaxy-distances function [universe [string!] /drifted factor [integer!]] [
 		galaxies: drift galaxies-of create universe any [factor 2]
 		
-		sum-of collect [forall galaxies [
+		do next collect [forall galaxies [
 			galaxy: first galaxies
 			foreach other next galaxies [
-				keep distance? galaxy other
+				keep '+ keep distance? galaxy other
 			] 
 		]]
 	]
